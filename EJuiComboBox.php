@@ -22,7 +22,15 @@ class EJuiComboBox extends CJuiInputWidget
 	/**
 	 * @var array the entries that the autocomplete should choose from.
 	 */
+	 
 	public $data = array();
+	
+	/**
+	 * @var bool whether the $data is an associative array or not
+	 */
+	 
+	public $assoc=true;
+	
 	/**
 	 * @var string A jQuery selector used to apply the widget to the element(s).
 	 * Use this to have the elements keep their binding when the DOM is manipulated
@@ -67,16 +75,12 @@ class EJuiComboBox extends CJuiInputWidget
 
 		if (is_array($this->data) && !empty($this->data)){
 			//if $data is not an assoc array make each value its key
-			if((bool)count(array_filter(array_keys($this->data), 'is_string'))){
-				$data=$this->data;
-				//does the same as array_unshift($data,null) but does not break assoc arrays
-				$data=array("","")+$data;
-			}
-			else{
-				$data=array_combine($this->data, $this->data);
-				array_unshift($data, null);
-			}
+			$data=($this->assoc)?$this->data:array_combine($this->data, $this->data);
+			
+			//does the same as array_unshift($data,null) but does not break assoc arrays
+			$data=array(""=>"")+$data;
 		}
+		
 		else
 			$data = array();
 		
