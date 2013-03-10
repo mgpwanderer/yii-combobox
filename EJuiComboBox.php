@@ -89,8 +89,7 @@ class EJuiComboBox extends CJuiInputWidget
 		else
 			echo CHtml::dropDownList($name, $this->value, $data);
 			
-		echo CHtml::textField(null,($this->hasModel()?($data[$this->model->{$this->attribute}]):$data[$this->value]),array('id'=>$id.'_combobox'));
-			
+		echo CHtml::textField(null,($this->hasModel()?(CHtml::resolveValue($this->model,$this->attribute)):$data[$this->value]),array('id'=>$id.'_combobox'));			
 		$this->options = array_merge($this->defaultOptions, $this->options);
 
 		$options = CJavaScript::encode($this->options);
