@@ -15,7 +15,8 @@
 					var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
 					response(select.children("option").map(function() {
 						var text = $(this).text();
-						if (this.value && (!request.term || matcher.test(text)))
+                        var value = $(this).val();
+						if (!request.term || matcher.test(text))
 							return {
 								label: text.replace(
 									new RegExp(
@@ -23,13 +24,13 @@
 										$.ui.autocomplete.escapeRegex(request.term) +
 										")(?![^<>]*>)(?![^&;]+;)", "gi"
 										), "<strong>$1</strong>" ),
-								value: text,
+								value: value,
 								option: this
 							};
 					}));
 				},
 				select: function(event, ui) {
-					var item = ui.item;
+					var item = ui.item
 					item.option.selected = true;
 					self._trigger("selected", event, {
 						item: item.option
@@ -39,21 +40,13 @@
 				change: function(event, ui) {
 					if (!ui.item) {
 						if (!options.allowText) {
-							var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex($(this).val() ) + "$", "i"),
-							valid = false;
+							var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex($(this).val() ) + "$", "i");
 							select.children("option").each(function() {
 								if ($(this).text().match(matcher)) {
-									this.selected = valid = true;
+									this.selected = true;
 									return false;
 								}
 							});
-							if ( !valid ) {
-								// remove invalid value, as it didn't match anything
-								$( this ).val( "" );
-								select.val( "" );
-								input.data( "autocomplete" ).term = "";
-								return false;
-							}
 						}
 						eval(options.onChange);
 					}
@@ -70,7 +63,8 @@
 
 			this.button = $("<button type='button'>&nbsp;</button>")
 			.attr("tabIndex", -1 )
-			.attr("title", "Show All Items")
+//			.attr("title", "Show All Items")
+			.attr("title", "Показать все значения")
 			.attr("id", 'btn')
 			.insertAfter(input)
 			.button({
